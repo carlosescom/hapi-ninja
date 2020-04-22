@@ -10,12 +10,10 @@ var server = new Hapi.Server();
 server.connection({port: parseInt(process.env.PORT, 10)});
 
 // Setup the views engine and folder
-server.views({
-    engines: {
-        html: require('swig')
-    },
-    path: './server/views'
-});
+server.auth.strategy('twilio-auth', 'twilio-signature', {
+    baseUrl: 'https://mycompany.com/webhooks-path', // your twilio webhooks base url
+    twilioAuthToken: 'xxxxxxxxxxx', // your twilio auth token
+})
 
 // Export the server to be required elsewhere.
 module.exports = server;
