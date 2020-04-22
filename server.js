@@ -7,10 +7,7 @@ var Hapi = require('hapi');
 var server = new Hapi.Server();
 
 // Setup the server with a host and port
-server.connection({
-    port: parseInt(process.env.PORT, 10) || 3000,
-    host: '0.0.0.0'
-});
+server.connection({port: parseInt(process.env.PORT, 10)});
 
 // Setup the views engine and folder
 server.views({
