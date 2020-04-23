@@ -46,11 +46,6 @@ server.register([
       register: require('./server/base/index.js')
     }
 ], function () {
-
-    server.auth.strategy('twilio-auth', 'twilio-signature', {
-      baseUrl: 'https://mycompany.com/webhooks-path', // your twilio webhooks base url
-      twilioAuthToken: 'xxxxxxxxxxx', // your twilio auth token
-    })
     
     //Start the server
     server.start(function() {
