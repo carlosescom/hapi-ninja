@@ -1,8 +1,10 @@
 /**
 * Dependencies.
 */
+const accountSid = process.env.ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
 var Hapi = require('hapi');
-var auth = require('hapi-twilio-auth');
 
 // Create a new server
 var server = new Hapi.Server();
