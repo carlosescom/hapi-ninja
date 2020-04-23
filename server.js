@@ -2,18 +2,13 @@
 * Dependencies.
 */
 var Hapi = require('hapi');
+var auth = require('hapi-twilio-auth');
 
 // Create a new server
 var server = new Hapi.Server();
 
 // Setup the server with a host and port
 server.connection({port: parseInt(process.env.PORT, 10)});
-
-// Setup the views engine and folder
-server.auth.strategy('twilio-auth', 'twilio-signature', {
-    baseUrl: 'https://mycompany.com/webhooks-path', // your twilio webhooks base url
-    twilioAuthToken: 'xxxxxxxxxxx', // your twilio auth token
-})
 
 // Export the server to be required elsewhere.
 module.exports = server;
@@ -51,6 +46,12 @@ server.register([
       register: require('./server/base/index.js')
     }
 ], function () {
+
+    server.auth.strategy('twilio-auth', 'twilio-signature', {
+      baseUrl: 'https://mycompany.com/webhooks-path', // your twilio webhooks base url
+      twilioAuthToken: 'xxxxxxxxxxx', // your twilio auth token
+    })
+    
     //Start the server
     server.start(function() {
         //Log to the console the host and port info
