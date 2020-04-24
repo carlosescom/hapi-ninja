@@ -18,34 +18,35 @@ module.exports = server;
     First: community/npm plugins are loaded
     Second: project specific plugins are loaded
  */
-server.register([
-    {
-        register: require("good"),
-        options: {
-            opsInterval: 5000,
-            reporters: [{
-                reporter: require('good-console'),
-                args:[{ ops: '*', request: '*', log: '*', response: '*', 'error': '*' }]
-            }]
+server.register(
+    [
+        {
+            register: require("good"),
+            options: {
+                opsInterval: 5000,
+                reporters: [{
+                    reporter: require('good-console'),
+                    args:[{ ops: '*', request: '*', log: '*', response: '*', 'error': '*' }]
+                }]
+            }
+        },
+        {
+            register: require("hapi-assets"),
+            options: require('./assets.js')
+        },
+        {
+            register: require("hapi-named-routes")
+        },
+        {
+            register: require("hapi-cache-buster")
+        },
+        {
+            register: require('./server/assets/index.js')
+        },
+        {
+            register: require('./server/base/index.js')
         }
-    },
-    {
-        register: require("hapi-assets"),
-        options: require('./assets.js')
-    },
-    {
-        register: require("hapi-named-routes")
-    },
-    {
-        register: require("hapi-cache-buster")
-    },
-    {
-        register: require('./server/assets/index.js')
-    },
-    {
-        register: require('./server/base/index.js')
-    }
-], function () {
+    ], function () {
 
     server.route({
         method: 'POST',
@@ -65,10 +66,10 @@ server.register([
         },
         config: { auth: false },
     })
+});
 
-    //Start the server
-    server.start(function() {
-        //Log to the console the host and port info
-        console.log('Server started at: ' + server.info.uri);
-    });
+//Start the server
+server.start(function() {
+    //Log to the console the host and port info
+    console.log('Server started at: ' + server.info.uri);
 });
