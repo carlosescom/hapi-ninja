@@ -63,6 +63,7 @@ server.register([
             .type('application/json')
             .code(200);
         },
+        config: { auth: false },
     })
 
     //Start the server
