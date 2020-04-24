@@ -57,7 +57,7 @@ server.register([
             .create({
                 body: 'Tú código de verificación es: 1234',
                 from: process.env.TWILIO_PHONE,
-                to: request.patient_phone
+                to: request.payload.patient_phone
             })
             .then(message => console.log(message.sid));
           
