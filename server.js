@@ -3,7 +3,7 @@
 */
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
+const twilio = require('twilio')(accountSid, authToken);
 var Hapi = require('hapi');
 
 // Create a new server
@@ -45,10 +45,28 @@ server.register([
         register: require('./server/assets/index.js')
     },
     {
-      register: require('./server/base/index.js')
+        register: require('./server/base/index.js')
     }
 ], function () {
-    
+
+    server.route({
+        method: 'POST',
+        path: '/sms',
+        handler(request, h) {
+            twilio.messages
+            .create({
+                body: 'Tú código de verificación es: 1234',
+                from: process.env.TWILIO_PHONE,
+                to: request.patient_phone
+            })
+            .then(message => console.log(message.sid));
+          
+            server.response(messagingResponse.toString())
+            .type('application/json')
+            .code(200);
+        },
+    })
+
     //Start the server
     server.start(function() {
         //Log to the console the host and port info
